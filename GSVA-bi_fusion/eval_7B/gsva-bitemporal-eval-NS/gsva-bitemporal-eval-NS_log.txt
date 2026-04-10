@@ -1,0 +1,34 @@
+[2026-03-16 16:15:50 gsva-bitemporal-eval-NS] (main.py 164): INFO Load trained weights successfully!
+[2026-03-16 16:15:50 gsva-bitemporal-eval-NS] (main.py 205): INFO Testing with 10062 examples.
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 273): INFO 
+========================================
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 274): INFO Validation Results (Epoch 0):
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 275): INFO ========================================
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 276): INFO Mean IoU (mIoU):       12.98
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 277): INFO Overall IoU (oIoU):    16.15
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 278): INFO ----------------------------------------
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 290): INFO Precision @ 0.5:       6.47%
+Precision @ 0.6:       4.19%
+Precision @ 0.7:       2.58%
+Precision @ 0.8:       1.24%
+Precision @ 0.9:       0.31%
+
+[2026-03-16 16:41:29 gsva-bitemporal-eval-NS] (solver.py 291): INFO ========================================
+
+[2026-03-29 21:42:05 gsva-bitemporal-eval-NS] (main.py 164): INFO Load trained weights successfully!
+[2026-03-29 21:42:06 gsva-bitemporal-eval-NS] (main.py 199): INFO Testing with 10062 examples.
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 273): INFO 
+========================================
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 274): INFO Validation Results (Epoch 0):
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 275): INFO ========================================
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 276): INFO Mean IoU (mIoU):       23.55
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 277): INFO Overall IoU (oIoU):    28.88
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 278): INFO ----------------------------------------
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 290): INFO Precision @ 0.5:       16.06%
+Precision @ 0.6:       11.57%
+Precision @ 0.7:       7.82%
+Precision @ 0.8:       4.51%
+Precision @ 0.9:       1.49%
+
+[2026-03-29 22:15:49 gsva-bitemporal-eval-NS] (solver.py 291): INFO ========================================
+
