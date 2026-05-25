@@ -173,11 +173,6 @@ Required weights:
 - `pretrained_weights/model_final_9d7f02.pkl`
   - Mask2Former / Swin-Base visual checkpoint
 
-Optional:
-
-- `pretrained_weights/SegEarth-R1-RRSIS-D`
-  - an exported model directory that can be used for sanity checks or warm-start experiments if needed
-
 ## Training
 
 ### Full Two-Stage Pipeline
