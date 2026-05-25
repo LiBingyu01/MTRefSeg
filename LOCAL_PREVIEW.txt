@@ -1,0 +1,11 @@
+本地预览方式：
+1. 解压本文件夹；
+2. 在该目录打开终端；
+3. 运行：python -m http.server 8000
+4. 浏览器访问：http://localhost:8000
+
+说明：
+- index.html 是纯静态单文件页面，不依赖 paper.paml / README.pmd 动态 fetch，因此直接双击通常也可以显示。
+- 已按照 MTRefSeg.pdf 更新标题、作者、摘要、Stage-1 数据表述和资源入口。
+- Paper 按钮指向 assets/MTRefSeg.pdf。
+- 预训练资源按钮显示为 MT-Stage1。

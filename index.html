@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MTRefSeg: Multi-temporal Referring Segmentation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #252936;
+      --muted: #626a7a;
+      --line: #e8ecf3;
+      --soft: #f7f9fc;
+      --accent: #2563eb;
+      --accent2: #d946ef;
+      --warm: #fff6e9;
+      --shadow: 0 18px 48px rgba(25, 31, 50, .10);
+      --serif: "DM Serif Text", Georgia, serif;
+      --sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.10), transparent 34rem),
+        radial-gradient(circle at top right, rgba(217,70,239,.10), transparent 30rem),
+        linear-gradient(180deg, #fff 0%, #fbfcff 36%, #fff 100%);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(255,255,255,.82);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar .container {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .navlinks a {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: .92rem;
+      margin-left: 1rem;
+    }
+    .navlinks a:hover { color: var(--accent); }
+    .hero-main { padding: 4.5rem 1.5rem 2rem; }
+    .paper-date {
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      margin-bottom: .65rem;
+    }
+    h1.title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5.2vw, 4.2rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      max-width: 1160px;
+      margin-bottom: 1.45rem;
+    }
+    .authors {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      line-height: 1.8;
+      max-width: 1150px;
+    }
+    .authors a { font-weight: 700; }
+    .affiliations {
+      font-family: var(--serif);
+      color: #394153;
+      font-size: 1.03rem;
+      line-height: 1.7;
+      margin-top: .3rem;
+    }
+    .sup { font-size: .65em; vertical-align: super; }
+    .button-row {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-top: 1.55rem;
+    }
+    .paper-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .48rem;
+      border: 1px solid #d9deea;
+      border-radius: 999px;
+      padding: .68rem .95rem;
+      color: var(--ink);
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 10px 30px rgba(25,31,50,.07);
+      font-weight: 800;
+      transition: all .18s ease;
+    }
+    .paper-btn:hover {
+      transform: translateY(-2px);
+      color: var(--accent);
+      border-color: rgba(37,99,235,.45);
+      box-shadow: 0 18px 42px rgba(37,99,235,.12);
+    }
+    .hero-figure {
+      margin-top: 2.4rem;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .hero-figure img { width: 100%; display:block; }
+    section.section { padding: 3.8rem 1.5rem; }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -.02em;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.82;
+      max-width: 1040px;
+    }
+    .card-soft {
+      height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.82);
+      box-shadow: 0 14px 40px rgba(25,31,50,.06);
+      padding: 1.35rem;
+    }
+    .card-soft h3 {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      margin-bottom: .45rem;
+    }
+    .card-soft p { color: var(--muted); line-height: 1.72; }
+    .metric {
+      text-align: center;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 1.25rem .8rem;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      box-shadow: 0 12px 34px rgba(25,31,50,.05);
+      height: 100%;
+    }
+    .metric .num {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -.03em;
+    }
+    .metric .label {
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: .25rem;
+      font-size: .95rem;
+    }
+    .figure-card {
+      margin: 1.4rem 0 2rem;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .figure-card img {
+      width: 100%;
+      display:block;
+      background: #fff;
+    }
+    .figure-card .caption {
+      padding: 1rem 1.2rem 1.15rem;
+      color: var(--muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--line);
+    }
+    .figure-card .caption strong { color: var(--ink); }
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+    .bibtex {
+      white-space: pre-wrap;
+      font-family: var(--mono);
+      font-size: .88rem;
+      background: #111827;
+      color: #f8fafc;
+      border-radius: 18px;
+      padding: 1.2rem;
+      overflow-x: auto;
+    }
+    footer {
+      padding: 3rem 1.5rem 5rem;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+    .tag {
+      background: #edf4ff;
+      color: #1d4ed8;
+      border-radius: 999px;
+      font-weight: 800;
+      padding: .35rem .7rem;
+      margin-right: .4rem;
+      margin-bottom: .45rem;
+    }
+    .note-box {
+      border-left: 5px solid var(--accent);
+      background: #f5f8ff;
+      border-radius: 18px;
+      padding: 1.1rem 1.25rem;
+      color: #415069;
+      line-height: 1.78;
+      margin-top: 1rem;
+    }
+    @media (max-width: 768px) {
+      .navlinks { display:none; }
+      .hero-main { padding-top: 3rem; }
+      .authors { font-size: 1.05rem; }
+      .paper-btn { width: 100%; justify-content: center; }
+      section.section { padding: 2.6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container is-max-widescreen">
+      <a class="brand" href="#">MTRefSeg</a>
+      <nav class="navlinks">
+        <a href="#abstract">Abstract</a>
+        <a href="#task">Task</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#craft">CRAFT-Agent</a>
+        <a href="#method">Method</a>
+        <a href="#benchmark">Benchmark</a>
+        <a href="#results">Results</a>
+        <a href="#attention">Attention</a>
+        <a href="#cite">Cite</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-main">
+      <div class="container is-max-widescreen">
+        <div class="paper-date">2026 May</div>
+        <h1 class="title">MTRefSeg: An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation</h1>
+
+        <div class="authors">
+          <a href="https://libingyu01.github.io/">Bingyu Li</a><span class="sup">1,+</span> ·
+          <strong>Da Zhang</strong><span class="sup">2,+</span> ·
+          <strong>Feiyu Wang</strong><span class="sup">3</span> ·
+          <strong>Tao Huo</strong><span class="sup">2</span> ·
+          <strong>Du Wu</strong><span class="sup">2</span> ·
+          <strong>Chenggang Rong</strong><span class="sup">2</span> ·
+          <strong>Zhiyuan Zhao</strong><span class="sup">4,*</span> ·
+          <strong>Junyu Gao</strong><span class="sup">2</span> ·
+          <strong>Xuelong Li</strong><span class="sup">4,*</span>
+        </div>
+
+        <div class="affiliations">
+          <span class="sup">1</span>University of Science and Technology of China; Institute of Artificial Intelligence (TeleAI), China Telecom<br>
+          <span class="sup">2</span>Northwestern Polytechnical University; Institute of Artificial Intelligence (TeleAI), China Telecom<br>
+          <span class="sup">3</span>Fudan University<br>
+          <span class="sup">4</span>Institute of Artificial Intelligence (TeleAI), China Telecom<br>
+          <span class="sup">+</span>Equal Contribution(s)&nbsp;&nbsp;&nbsp; <span class="sup">*</span>Corresponding Author(s)
+        </div>
+
+        <div class="button-row">
+          <a class="paper-btn" href="./assets/MTRefSeg.pdf"><i class="fa-solid fa-file-pdf"></i> Paper</a>
+          <a class="paper-btn" href="https://github.com/LiBingyu01/ChangeVLM"><i class="fa-brands fa-github"></i> Codes: Our ChangeVLM</a>
+          <a class="paper-btn" href="https://github.com/LiBingyu01/ChangeVLM/tree/Other_MLLM_RCD"><i class="fa-brands fa-github"></i> Codes: Other LVLMs</a>
+          <a class="paper-btn" href="https://huggingface.co/datasets/kkk2026/MTRefSeg/tree/main"><i class="fa-solid fa-database"></i> MT-21K</a>
+          <a class="paper-btn" href="https://huggingface.co/datasets/kkk2026/MTRefSeg_pretrain/tree/main"><i class="fa-solid fa-layer-group"></i> MT-Stage1</a>
+        </div>
+
+        <div class="hero-figure">
+          <img src="./assets/pic_1.png" alt="MTRefSeg motivation and overview">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="abstract">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Abstract</h2>
+        <p class="lead">
+          Large Vision--Language Models have shown strong visual understanding and language-guided grounding abilities,
+          yet their capacity for multi-temporal visual reasoning remains underexplored. We introduce
+          <strong>Multi-temporal Referring Segmentation (MTRS)</strong>, a task that segments language-described temporal changes
+          from multi-temporal images. MTRS jointly requires temporal correspondence reasoning, language grounding, and
+          pixel-level mask prediction. To support this task, we propose <strong>CRAFT-Agent</strong>, an automated data construction
+          pipeline with human auditing, and build <strong>MTRefSeg-21K</strong>, the first MTRS benchmark with 21K high-quality
+          bi-image--text--mask triplets across diverse scenes, viewpoints, and domains. Benchmarking 15 VLMs reveals that
+          direct inference performs poorly, while task-specific fine-tuning remains limited, indicating that single-temporal
+          vision-language pretraining is insufficient for MTRS. We further propose <strong>MTRefSeg-R1</strong>, a change-aware LVLM
+          framework trained with a two-stage strategy: it first learns general temporal-change perception from approximately
+          20K vision-only bi-temporal samples, and is then fine-tuned on MTRefSeg-21K for fine-grained language-guided
+          temporal localization.
+        </p>
+
+        <div class="columns is-multiline mt-5">
+          <div class="column is-half"><div class="card-soft"><h3>New Task</h3><p>MTRS unifies temporal change understanding, natural-language grounding, and pixel-level segmentation.</p></div></div>
+          <div class="column is-half"><div class="card-soft"><h3>New Benchmark</h3><p>MTRefSeg-21K contains fine-grained bi-image--text--mask triplets across normal-scene and remote-sensing domains.</p></div></div>
+          <div class="column is-half"><div class="card-soft"><h3>Data Engine</h3><p>CRAFT-Agent constructs annotations through grid-aware perception, mask refinement, expression beautification, and human auditing.</p></div></div>
+          <div class="column is-half"><div class="card-soft"><h3>Strong Baseline</h3><p>MTRefSeg-R1 learns change-sensitive visual representations from approximately 20K vision-only bi-temporal samples and then performs fine-grained language-conditioned localization.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="task">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Task Introduction: From Static Language Segmentation to Temporal Referring Segmentation</h2>
+        <p class="lead">
+          Our motivation starts from three representative language-guided segmentation paradigms: open-vocabulary segmentation,
+          referring segmentation, and reasoning segmentation. These tasks have pushed segmentation from closed-set category
+          prediction toward flexible text-conditioned perception, but they are still mainly formulated on <strong>single-time images</strong>.
+          In real-world dynamic scenes, however, users often care about <strong>what has changed</strong>, <strong>where the change happens</strong>,
+          and <strong>which changed region is specified by the instruction</strong>. This gap motivates our proposed
+          <strong>Multi-temporal Referring Segmentation (MTRS)</strong> task.
+        </p>
+
+        <div class="figure-card">
+          <img src="./assets/pic_task_intro.png" alt="Task introduction and comparison with open-vocabulary, referring, and reasoning segmentation">
+          <div class="caption">
+            <strong>Relationship to existing language-guided segmentation tasks.</strong> Open-vocabulary segmentation emphasizes category-list recognition,
+            referring segmentation emphasizes explicit instance localization, and reasoning segmentation emphasizes implicit instruction reasoning.
+            MTRS further introduces cross-temporal comparison: the target is not only defined by language, but also by its temporal change between images.
+          </div>
+        </div>
+
+        <div class="columns is-multiline mt-5">
+          <div class="column is-one-third">
+            <div class="card-soft">
+              <h3>Open-Vocabulary Segmentation</h3>
+              <p>Focuses on aligning pixels with category names or vocabulary lists. It is strong for recognizing unseen categories, but the target is usually category-level and does not require distinguishing a specific changed object across time.</p>
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="card-soft">
+              <h3>Referring Segmentation</h3>
+              <p>Localizes an explicitly described object or region in a single image, such as an object with certain attributes or spatial relations. It emphasizes precise grounding, but the evidence mainly comes from one visual observation.</p>
+            </div>
+          </div>
+          <div class="column is-one-third">
+            <div class="card-soft">
+              <h3>Reasoning Segmentation</h3>
+              <p>Segments a target implied by a high-level or implicit instruction. It requires semantic reasoning, but still usually reasons over a static scene rather than comparing earlier and later observations.</p>
+            </div>
+          </div>
+          <div class="column is-full">
+            <div class="note-box">
+              <strong>Our task, MTRS:</strong> given temporally related images and a natural-language expression, the model must compare the images, identify the language-relevant temporal variation, and output the pixel-level mask of the referred changed region. Therefore, MTRS differs from the three tasks above by jointly requiring <strong>temporal correspondence</strong>, <strong>change understanding</strong>, <strong>language grounding</strong>, and <strong>segmentation accuracy</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dataset">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Dataset: MTRefSeg-21K</h2>
+        <p class="lead">
+          MTRefSeg-21K provides a unified benchmark for evaluating language-guided temporal change understanding across
+          remote sensing, aerial-view, and normal-scene imagery, with overall, NS-domain, and RS-domain evaluation settings.
+        </p>
+
+        <div class="columns is-multiline mt-5">
+          <div class="column is-one-fifth"><div class="metric"><div class="num">9,521</div><div class="label">Bi-temporal image pairs</div></div></div>
+          <div class="column is-one-fifth"><div class="metric"><div class="num">20,924</div><div class="label">Referring expressions</div></div></div>
+          <div class="column is-one-fifth"><div class="metric"><div class="num">21K</div><div class="label">Image-text-mask triplets</div></div></div>
+          <div class="column is-one-fifth"><div class="metric"><div class="num">20K</div><div class="label">Stage-1 vision samples</div></div></div>
+          <div class="column is-one-fifth"><div class="metric"><div class="num">RS+NS</div><div class="label">Multi-domain evaluation</div></div></div>
+        </div>
+
+        <div class="figure-card">
+          <img src="./assets/pic_dataset.png" alt="MTRefSeg-21K dataset examples">
+          <div class="caption">
+            <strong>MTRefSeg-21K examples.</strong> The benchmark covers multiple views and diverse scenes, including remote-sensing/aerial views and normal scenes with appearing, disappearing, and state-change regions.
+          </div>
+        </div>
+
+        <div class="figure-card">
+          <img src="./assets/pic_table_dataset.png" alt="Dataset statistics and multi-domain comparison">
+          <div class="caption">
+            <strong>Dataset statistics and comparison.</strong> MTRefSeg-21K contains 9,521 bi-temporal image pairs and 20,924 referring expressions. Compared with prior general-domain and remote-sensing referring segmentation datasets, it explicitly supports bi-temporal inputs, provides richer language descriptions, and covers both general and remote-sensing domains with a broad resolution range.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="craft">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">CRAFT-Agent Data Construction</h2>
+        <p class="lead">
+          CRAFT-Agent automatically produces high-quality bi-image--text--mask triplets through a three-stage workflow:
+          grid-aware change perception, iterative mask correction, and natural referring-expression refinement.
+        </p>
+        <div class="figure-card">
+          <img src="./assets/pic_dataset_generate.png" alt="CRAFT-Agent pipeline">
+          <div class="caption">
+            <strong>CRAFT-Agent pipeline.</strong> The agent identifies temporal changes, generates spatially grounded expressions,
+            refines masks, rewrites mechanical descriptions into natural language, and removes uncorrected samples through human auditing.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Method: MTRefSeg-R1</h2>
+        <p class="lead">
+          MTRefSeg-R1 is a change-aware LVLM for MTRS. It first learns general multi-temporal change perception from
+          approximately 20K vision-only bi-temporal samples with binary change masks, then performs referring multi-temporal finetuning
+          to segment only the language-specified changed region.
+        </p>
+        <div class="figure-card">
+          <img src="./assets/pic_method.png" alt="MTRefSeg-R1 framework">
+          <div class="caption">
+            <strong>MTRefSeg-R1 framework.</strong> The model uses a shared multi-scale vision encoder, change-aware multi-scale fusion,
+            an LVLM reasoning branch, and a mask decoder guided by the generated <code>[SEG]</code> token.
+          </div>
+        </div>
+
+        <div class="figure-card">
+          <img src="./assets/pic_adapt_models.png" alt="Adapting VLM and LVLM segmentation models to MTRS">
+          <div class="caption">
+            <strong>Adapting existing models to MTRS.</strong> For VLM-based segmentation models, single-image inputs are extended to paired temporal images with temporal feature interaction. For segmentation-oriented LVLMs, temporally ordered image tokens and a change-aware prompt are used so that the generated <code>[SEG]</code> token conditions mask prediction on the described temporal change.
+          </div>
+        </div>
+
+        <div class="note-box">
+          <strong>Core idea:</strong> instead of detecting all changed pixels, MTRefSeg-R1 aligns a natural-language instruction with temporal variations and outputs the mask of the referred changed region.
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="benchmark">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Quantitative Benchmark Results</h2>
+        <p class="lead">
+          We benchmark specialist referring segmentation models and LVLM-based segmentation models under the Train→Val, NS→NS, and RS→RS settings. The results show that direct use of single-temporal LVLMs is insufficient for MTRS, while MTRefSeg-R1 provides a strong change-aware baseline after visual change pretraining and multimodal fine-tuning.
+        </p>
+
+        <div class="figure-card">
+          <img src="./assets/pic_table_trainval.png" alt="Train to validation quantitative comparison">
+          <div class="caption">
+            <strong>Train→Val evaluation.</strong> MTRefSeg-R1 achieves the best overall performance among compared LVLM baselines, reaching 68.24 mIoU and 73.90 Pr@50, showing strong language-guided temporal localization ability in the standard validation setting.
+          </div>
+        </div>
+
+        <div class="figure-card">
+          <img src="./assets/pic_table_ns.png" alt="NS to NS quantitative comparison">
+          <div class="caption">
+            <strong>NS-domain evaluation.</strong> Under the normal-scene setting, MTRefSeg-R1 remains competitive and improves high-threshold localization quality, indicating that the model can handle fine-grained object-level temporal changes in everyday scenes.
+          </div>
+        </div>
+
+        <div class="figure-card">
+          <img src="./assets/pic_table_rs.png" alt="RS to RS quantitative comparison">
+          <div class="caption">
+            <strong>RS-domain evaluation.</strong> In remote-sensing imagery, MTRefSeg-R1 obtains clear gains over existing LVLM baselines, especially for dense building, road, and agricultural-structure changes that require robust spatial reasoning.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Qualitative Results</h2>
+        <p class="lead">
+          MTRefSeg evaluates both normal-scene and remote-sensing cases. Compared with existing LVLM baselines, MTRefSeg-R1
+          better localizes fine-grained language-described temporal changes.
+        </p>
+
+        <div class="result-grid mt-5">
+          <div class="figure-card">
+            <img src="./assets/pic_vis_NS.png" alt="Qualitative comparison on normal scenes">
+            <div class="caption">
+              <strong>Normal-scene results.</strong> MTRefSeg-R1 produces more accurate masks for disappeared, newly visible, and state-changed objects under language guidance.
+            </div>
+          </div>
+          <div class="figure-card">
+            <img src="./assets/pic_vis_RS.png" alt="Qualitative comparison on remote sensing scenes">
+            <div class="caption">
+              <strong>Remote-sensing results.</strong> MTRefSeg-R1 better handles dense buildings, agricultural structures, roads, and large-scale remote-sensing changes.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="attention">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Language-Guided Temporal Attention</h2>
+        <p class="lead">
+          To better understand MTRefSeg-R1, we visualize decoder <code>[SEG]</code> attention maps and intermediate query masks. The attention progressively concentrates on the region described by the referring expression, and the query masks refine the target changed object before producing the final prediction.
+        </p>
+
+        <div class="figure-card">
+          <img src="./assets/pic_attention.png" alt="Visualization of language-guided temporal attention and mask decoding">
+          <div class="caption">
+            <strong>Attention and mask decoding visualization.</strong> The decoder attention highlights the language-relevant temporal region, while intermediate masks gradually localize the final changed object. This supports the core design of aligning temporal visual evidence with natural-language change descriptions.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resources">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Resources</h2>
+        <div class="columns is-multiline">
+          <div class="column is-half"><div class="card-soft"><h3>Code</h3><p><a href="https://github.com/LiBingyu01/ChangeVLM">Our ChangeVLM</a><br><a href="https://github.com/LiBingyu01/ChangeVLM/tree/Other_MLLM_RCD">Other LVLMs</a></p></div></div>
+          <div class="column is-half"><div class="card-soft"><h3>Datasets</h3><p><a href="https://huggingface.co/datasets/kkk2026/MTRefSeg/tree/main">MTRefSeg-21K</a><br><a href="https://huggingface.co/datasets/kkk2026/MTRefSeg_pretrain/tree/main">MTRefSegPretrain-20K</a></p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cite">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Cite This Work</h2>
+        <pre class="bibtex">@article{li2026mtrefseg,
+  title   = {MTRefSeg: An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation},
+  author  = {Li, Bingyu and Zhang, Da and Wang, Feiyu and Huo, Tao and Wu, Du and Rong, Chenggang and Zhao, Zhiyuan and Gao, Junyu and Li, Xuelong},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>MTRefSeg Project Page · For inquiries, please contact <a href="mailto:libingyu0205@mail.ustc.edu.cn">libingyu0205@mail.ustc.edu.cn</a>.</p>
+  </footer>
+</body>
+</html>
