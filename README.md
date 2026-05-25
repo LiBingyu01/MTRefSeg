@@ -1,10 +1,10 @@
 # MTRefSeg: An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation
 
 <div align="center">
-  <img src="assets/pic_1.png" width="100%" alt="ChangeRef teaser"/>
+  <img src="assets/pic_1.png" width="100%" alt="MTRefSeg teaser"/>
 </div>
 
-MTRefSeg-R1 is a bi-temporal vision-language segmentation framework for **ChangeRef**, where the model receives two temporal images (`T1`, `T2`) together with a natural-language instruction, and predicts the target changed region. This repository is built on the SegEarth-R1 codebase and extends it to **instruction-following change referring segmentation** across remote-sensing, aerial, and normal-scene views.
+MTRefSeg-R1 is a bi-temporal vision-language segmentation framework for **MTRefSeg**, where the model receives two temporal images (`T1`, `T2`) together with a natural-language instruction, and predicts the target changed region. This repository is built on the SegEarth-R1 codebase and extends it to **instruction-following change referring segmentation** across remote-sensing, aerial, and normal-scene views.
 
 The current implementation focuses on:
 
@@ -19,7 +19,7 @@ The current implementation focuses on:
   <img src="assets/pic_task_intro.png" width="100%" alt="Task comparison"/>
 </div>
 
-Compared with open-vocabulary segmentation, referring segmentation, and reasoning segmentation, ChangeRef emphasizes **temporal difference understanding**, **precise spatial grounding**, and **instruction-following change localization**. The model must not only recognize what changed, but also understand where the change happened and how that change is described in natural language.
+Compared with open-vocabulary segmentation, referring segmentation, and reasoning segmentation, MTRefSeg emphasizes **temporal difference understanding**, **precise spatial grounding**, and **instruction-following change localization**. The model must not only recognize what changed, but also understand where the change happened and how that change is described in natural language.
 
 ## Dataset Construction
 
@@ -27,7 +27,7 @@ Compared with open-vocabulary segmentation, referring segmentation, and reasonin
   <img src="assets/pic_dataset_generate.png" width="100%" alt="Dataset generation pipeline"/>
 </div>
 
-The ChangeRef data pipeline is designed to produce fine-grained change descriptions with:
+The MTRefSeg data pipeline is designed to produce fine-grained change descriptions with:
 
 - explicit change localization
 - change-type labeling such as appear, disappear, and state change
@@ -38,7 +38,7 @@ The ChangeRef data pipeline is designed to produce fine-grained change descripti
   <img src="assets/pic_dataset.png" width="100%" alt="MTRefSeg dataset overview"/>
 </div>
 
-The multi-temporal referring dataset covers multiple view types and diverse scenes, including remote-sensing / aerial views and normal scenes. In this repository, the cleaned training and validation data are organized under `ChangeRef_Clear`, while stage-1 pretraining uses dedicated multi-temporal pretraining subsets.
+The multi-temporal referring dataset covers multiple view types and diverse scenes, including remote-sensing / aerial views and normal scenes. In this repository, the cleaned training and validation data are organized under `MTRefSeg_Clear`, while stage-1 pretraining uses dedicated multi-temporal pretraining subsets.
 
 ## Method Overview
 
@@ -144,7 +144,7 @@ Each JSON file in `referring_expression/` should follow the format used by the t
 The default data root used in the scripts is:
 
 ```bash
-/lby_data01/zhaozy/lby/ChangeRef_Clear
+/lby_data01/zhaozy/lby/MTRefSeg_Clear
 ```
 
 The main split conventions in this repository are:
@@ -316,7 +316,7 @@ TV validation:
 ```bash
 bash scripts/eval_change.sh \
   ./checkpoint/stage2_train_final_val \
-  /lby_data01/zhaozy/lby/ChangeRef_Clear \
+  /lby_data01/zhaozy/lby/MTRefSeg_Clear \
   val \
   0
 ```
@@ -326,7 +326,7 @@ NS validation:
 ```bash
 bash scripts/eval_change.sh \
   ./checkpoint/stage2_ns_final \
-  /lby_data01/zhaozy/lby/ChangeRef_Clear/NS_FINAL_CLEAN_val \
+  /lby_data01/zhaozy/lby/MTRefSeg_Clear/NS_FINAL_CLEAN_val \
   val \
   0
 ```
@@ -336,7 +336,7 @@ RS validation:
 ```bash
 bash scripts/eval_change.sh \
   ./checkpoint/stage2_rs_final \
-  /lby_data01/zhaozy/lby/ChangeRef_Clear/RS_FINAL_CLEAN_val \
+  /lby_data01/zhaozy/lby/MTRefSeg_Clear/RS_FINAL_CLEAN_val \
   val \
   0
 ```
@@ -360,7 +360,7 @@ To reproduce the main paper results in this repository, use the three final stag
 All commands below assume the dataset root is:
 
 ```bash
-/lby_data01/zhaozy/lby/ChangeRef_Clear
+/lby_data01/zhaozy/lby/MTRefSeg_Clear
 ```
 
 and that you want to evaluate with 4 GPUs (`0,1,2,3`). If your machine uses different GPU ids, replace `0,1,2,3` accordingly.
@@ -370,7 +370,7 @@ and that you want to evaluate with 4 GPUs (`0,1,2,3`). If your machine uses diff
 ```bash
 bash scripts/eval_change.sh \
   "checkpoint/stage2_train_final_val" \
-  "/lby_data01/zhaozy/lby/ChangeRef_Clear" \
+  "/lby_data01/zhaozy/lby/MTRefSeg_Clear" \
   "val_FINAL_CLEAN" \
   "0,1,2,3" \
   2>&1 | tee logs/stage2_train_final_val.log
@@ -381,7 +381,7 @@ bash scripts/eval_change.sh \
 ```bash
 bash scripts/eval_change.sh \
   "checkpoint/stage2_ns_final" \
-  "/lby_data01/zhaozy/lby/ChangeRef_Clear" \
+  "/lby_data01/zhaozy/lby/MTRefSeg_Clear" \
   "NS_FINAL_CLEAN_val" \
   "0,1,2,3" \
   2>&1 | tee logs/stage2_full_finetune_ns_final.log
@@ -392,7 +392,7 @@ bash scripts/eval_change.sh \
 ```bash
 bash scripts/eval_change.sh \
   "checkpoint/stage2_rs_final" \
-  "/lby_data01/zhaozy/lby/ChangeRef_Clear" \
+  "/lby_data01/zhaozy/lby/MTRefSeg_Clear" \
   "RS_FINAL_CLEAN_val" \
   "0,1,2,3" \
   2>&1 | tee logs/stage2_full_finetune_rs_final.log
