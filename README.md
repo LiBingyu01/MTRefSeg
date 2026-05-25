@@ -76,14 +76,14 @@ MTRefSeg-R1/
 ├── pretrained_weights/         # required base checkpoints
 ├── scripts/                    # training, evaluation, visualization, ablation entrypoints
 ├── attention_vis/              # saved attention-map visualizations
-└── mtrefseg_r1/                # core codebase
+└── segearth_r1/                # core codebase
 ```
 
 The most relevant directories are:
 
 - `scripts/`: ready-to-run shell entrypoints
-- `mtrefseg_r1/train/`: stage-1 and stage-2 training code
-- `mtrefseg_r1/eval_and_test/`: evaluation datasets and inference code
+- `segearth_r1/train/`: stage-1 and stage-2 training code
+- `segearth_r1/eval_and_test/`: evaluation datasets and inference code
 - `assets/`: task, dataset, method, and qualitative figures
 
 ## Installation
@@ -108,7 +108,7 @@ Additional dependencies:
 - compile the CUDA kernel for `MSDeformAttn`
 
 ```bash
-cd mtrefseg_r1/model/mask_decoder/Mask2Former_Simplify/modeling/pixel_decoder/ops
+cd segearth_r1/model/mask_decoder/Mask2Former_Simplify/modeling/pixel_decoder/ops
 sh make.sh
 ```
 
