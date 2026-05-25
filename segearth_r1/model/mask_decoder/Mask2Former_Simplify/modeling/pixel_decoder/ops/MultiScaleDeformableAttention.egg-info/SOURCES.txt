@@ -1,0 +1,12 @@
+setup.py
+/lby_data01/zhaozy/lby/ChangeVLM-Other_MLLM_RCD/LVLM/SegEarth-R1-main-down/segearth_r1/model/mask_decoder/Mask2Former_Simplify/modeling/pixel_decoder/ops/src/vision.cpp
+/lby_data01/zhaozy/lby/ChangeVLM-Other_MLLM_RCD/LVLM/SegEarth-R1-main-down/segearth_r1/model/mask_decoder/Mask2Former_Simplify/modeling/pixel_decoder/ops/src/cpu/ms_deform_attn_cpu.cpp
+/lby_data01/zhaozy/lby/ChangeVLM-Other_MLLM_RCD/LVLM/SegEarth-R1-main-down/segearth_r1/model/mask_decoder/Mask2Former_Simplify/modeling/pixel_decoder/ops/src/cuda/ms_deform_attn_cuda.cu
+MultiScaleDeformableAttention.egg-info/PKG-INFO
+MultiScaleDeformableAttention.egg-info/SOURCES.txt
+MultiScaleDeformableAttention.egg-info/dependency_links.txt
+MultiScaleDeformableAttention.egg-info/top_level.txt
+functions/__init__.py
+functions/ms_deform_attn_func.py
+modules/__init__.py
+modules/ms_deform_attn.py
