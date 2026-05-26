@@ -34,19 +34,9 @@ LVLMs/README.md
 LVLMs/README_CN.md
 ```
 
-## Environment
-
-For VLM-based methods, a common dependency reference is provided in:
-
-```bash
-pip install -r requirements_for_VLM.txt
-```
-
-Some sub-projects have their own dependencies, pretrained weights, dataset paths, and running scripts. Please follow the README file inside each corresponding subfolder.
-
 ## Notes
 
-* The code packages in `VLMs/` and `LVLMs/` may have different environment requirements.
+* The code packages in `VLMs/` and `LVLMs/` have different environment requirements.
 * Please unzip the corresponding package before running a specific baseline.
 * Dataset paths, pretrained model paths, and output directories may need to be modified according to your local environment.
 * For training, evaluation, checkpoint conversion, and model-specific details, please check the README in the corresponding subfolder.
@@ -54,3 +44,21 @@ Some sub-projects have their own dependencies, pretrained weights, dataset paths
 ## Acknowledgement
 
 This repository builds upon multiple open-source referring segmentation, remote-sensing segmentation, and large vision-language model projects. We sincerely thank the original authors for their valuable contributions.
+
+We especially acknowledge the following open-source projects:
+
+* [CRIS](https://github.com/DerrickWang005/CRIS.pytorch)
+* [LAVT](https://github.com/yz93/LAVT-RIS)
+* [FIANet](https://github.com/Shaosifan/FIANet)
+* [RMSIN](https://github.com/Lsan2401/RMSIN)
+* [RSRefSeg](https://github.com/KyanChen/RSRefSeg)
+* [RefSegFormer / Robust Referring Segmentation](https://github.com/jianzongwu/robust-ref-seg)
+* [RRSIS / LGCE](https://gitlab.lrz.de/ai4eo/reasoning/rrsis)
+* [LISA](https://github.com/dvlab-research/LISA)
+* [GSVA](https://github.com/LeapLabTHU/GSVA)
+* [GroundingLMM / GLaMM](https://github.com/mbzuai-oryx/groundingLMM)
+* [GeoPixel](https://github.com/mbzuai-oryx/GeoPixel)
+* [SegEarth-R1](https://github.com/earth-insights/SegEarth-R1)
+* [UniChange](https://github.com/Erxucomeon/UniChange)
+* [UniGeoSeg](https://github.com/MiliLab/UniGeoSeg)
+
