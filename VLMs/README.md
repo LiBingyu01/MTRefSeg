@@ -1,4 +1,4 @@
-# Unified Guide for Bi-Temporal LVM Repositories
+# Unified Guide for Bi-Temporal VLMs Repositories
 
 This directory collects several conventional vision-language segmentation repositories and adapts them to **bi-temporal image input** for change referring segmentation and change understanding.
 
@@ -51,19 +51,19 @@ The script names vary across repositories, but the overall logic is the same: lo
 The recommended base environment is:
 
 ```bash
-LVM/FIANet-master-down/requirements_for_VLM.txt
+VLMs/FIANet-master-down/requirements_for_VLM.txt
 ```
 
 Base installation:
 
 ```bash
-python -m pip install -r LVM/FIANet-master-down/requirements_for_VLM.txt
+python -m pip install -r VLMs/FIANet-master-down/requirements_for_VLM.txt
 ```
 
 For `punkt_tab`, include the following commands exactly:
 
 ```bash
-cd LVM/FIANet-master-down
+cd VLMs/FIANet-master-down
 mkdir -p /root/nltk_data/tokenizers
 unzip punkt_tab.zip -d /root/nltk_data/tokenizers/
 ```
@@ -82,7 +82,7 @@ python -m pip install -r /path/to/repo/requirements.txt
 
 ## 3. Unified Checkpoint Notes
 
-Unlike the multimodal LLM repositories, most repositories in this `LVM` directory save standard `.pth` checkpoints directly after training. No LoRA merge is needed in the common workflow.
+Unlike the multimodal LLM repositories, most repositories in this `VLMs` directory save standard `.pth` checkpoints directly after training. No LoRA merge is needed in the common workflow.
 
 Exception:
 
@@ -101,7 +101,7 @@ For the other repositories, the common pattern is:
 Repository path:
 
 ```bash
-LVM/CRIS.pytorch-master-down
+VLMs/CRIS.pytorch-master-down
 ```
 
 Required pretrained weights:
@@ -119,7 +119,7 @@ Training:
 ResNet-50:
 
 ```bash
-cd LVM/CRIS.pytorch-master-down
+cd VLMs/CRIS.pytorch-master-down
 WANDB_MODE=offline python -u train.py --config config/changeref_r50.yaml
 ```
 
@@ -172,7 +172,7 @@ Additional note:
 Repository path:
 
 ```bash
-LVM/FIANet-master-down
+VLMs/FIANet-master-down
 ```
 
 Required pretrained weights:
@@ -185,7 +185,7 @@ Training:
 train-val:
 
 ```bash
-cd LVM/FIANet-master-down
+cd VLMs/FIANet-master-down
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --dataset change_ref \
   --batch-size 16 \
@@ -248,7 +248,7 @@ Additional notes:
 Repository path:
 
 ```bash
-LVM/LAVT-RIS-main-down
+VLMs/LAVT-RIS-main-down
 ```
 
 Required pretrained weights:
@@ -261,7 +261,7 @@ Training:
 train-val:
 
 ```bash
-cd LVM/LAVT-RIS-main-down
+cd VLMs/LAVT-RIS-main-down
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --model lavt_change \
   --dataset change_ref \
@@ -326,7 +326,7 @@ Additional note:
 Repository path:
 
 ```bash
-LVM/RMSIN-main-down
+VLMs/RMSIN-main-down
 ```
 
 Required pretrained weights:
@@ -339,7 +339,7 @@ Training:
 train-val:
 
 ```bash
-cd LVM/RMSIN-main-down
+cd VLMs/RMSIN-main-down
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --model lavt_one \
   --dataset change_ref \
@@ -405,7 +405,7 @@ Additional note:
 Repository path:
 
 ```bash
-LVM/rrsis-main-down-LGCE
+VLMs/rrsis-main-down-LGCE
 ```
 
 Required pretrained weights:
@@ -418,7 +418,7 @@ Training:
 train-val:
 
 ```bash
-cd LVM/rrsis-main-down-LGCE
+cd VLMs/rrsis-main-down-LGCE
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --dataset change_ref \
   --batch-size 16 \
@@ -476,7 +476,7 @@ bash vis.sh
 Repository path:
 
 ```bash
-LVM/robust-ref-seg-main-down-RefSegformer
+VLMs/robust-ref-seg-main-down-RefSegformer
 ```
 
 Required pretrained weights:
@@ -494,7 +494,7 @@ Training:
 train-val:
 
 ```bash
-cd LVM/robust-ref-seg-main-down-RefSegformer
+cd VLMs/robust-ref-seg-main-down-RefSegformer
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 main.py \
   --exp MTRefSeg \
   --dataset MTRefSeg \
@@ -557,7 +557,7 @@ Additional notes:
 Repository path:
 
 ```bash
-LVM/RSRefSeg-release-down
+VLMs/RSRefSeg-release-down
 ```
 
 Required pretrained weights:
@@ -576,7 +576,7 @@ Training:
 train-val:
 
 ```bash
-cd LVM/RSRefSeg-release-down
+cd VLMs/RSRefSeg-release-down
 bash tools/dist_train.sh configs_RSRefSeg/RSRefSeg-b-train-val.py 1
 ```
 
@@ -630,7 +630,7 @@ Inference / evaluation:
 train-val:
 
 ```bash
-cd LVM/RSRefSeg-release-down
+cd VLMs/RSRefSeg-release-down
 bash tools/dist_test.sh \
   configs_RSRefSeg/RSRefSeg-b-train-val.py \
   work_dirs/RSRefSeg-b-train-val/exported_weights/pytorch_model.bin \
@@ -674,7 +674,7 @@ For first-time reproduction, the recommended order is:
 
 ## 6. Final Notes
 
-- these `LVM` repositories are conventional vision-language segmentation models, not multimodal LLMs
+- these `VLMs` repositories are conventional vision-language segmentation models, not multimodal LLMs
 - they have all been adapted to bi-temporal `A/B` image input
 - `FIANet`, `LAVT`, `RMSIN`, `LGCE`, and `RefSegformer` are essentially in the `Swin + BERT` family
 - `CRIS` is based on `CLIP RN50/RN101`
