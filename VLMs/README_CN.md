@@ -1,6 +1,6 @@
-# LVM 双时间输入统一说明
+# VLMs 双时间输入统一说明
 
-本目录收集了一组传统视觉-语言分割模型（LVM），并统一改造成了**双时间图像输入**版本，用于变化指代分割 / 变化理解任务。
+本目录收集了一组传统视觉-语言分割模型（VLMs），并统一改造成了**双时间图像输入**版本，用于变化指代分割 / 变化理解任务。
 
 当前已经适配为双时间输入的仓库包括：
 
@@ -45,19 +45,19 @@ split_root/
 建议优先使用下面这个基础环境文件：
 
 ```bash
-LVM/FIANet-master-down/requirements_for_VLM.txt
+VLMs/FIANet-master-down/requirements_for_VLM.txt
 ```
 
 基础安装方式：
 
 ```bash
-python -m pip install -r LVM/FIANet-master-down/requirements_for_VLM.txt
+python -m pip install -r VLMs/FIANet-master-down/requirements_for_VLM.txt
 ```
 
 `punkt_tab` 也建议手动准备。按你的要求，保留下面这组命令：
 
 ```bash
-cd LVM/FIANet-master-down
+cd VLMs/FIANet-master-down
 mkdir -p /root/nltk_data/tokenizers
 unzip punkt_tab.zip -d /root/nltk_data/tokenizers/
 ```
@@ -76,7 +76,7 @@ python -m pip install -r /path/to/repo/requirements.txt
 
 ## 3. 统一保存说明
 
-这组 LVM 仓库和前面的多模态大模型不同，绝大多数训练后直接保存 `.pth` 权重，不需要做 LoRA merge。
+这组 VLMs 仓库和前面的多模态大模型不同，绝大多数训练后直接保存 `.pth` 权重，不需要做 LoRA merge。
 
 例外：
 
@@ -95,7 +95,7 @@ python -m pip install -r /path/to/repo/requirements.txt
 仓库路径：
 
 ```bash
-LVM/CRIS.pytorch-master-down
+VLMs/CRIS.pytorch-master-down
 ```
 
 需要准备的权重：
@@ -113,7 +113,7 @@ LVM/CRIS.pytorch-master-down
 ResNet-50：
 
 ```bash
-cd LVM/CRIS.pytorch-master-down
+cd VLMs/CRIS.pytorch-master-down
 WANDB_MODE=offline python -u train.py --config config/changeref_r50.yaml
 ```
 
@@ -166,7 +166,7 @@ python -u vis_result.py --config config/changeref_r101.yaml
 仓库路径：
 
 ```bash
-LVM/FIANet-master-down
+VLMs/FIANet-master-down
 ```
 
 需要准备的权重：
@@ -179,7 +179,7 @@ LVM/FIANet-master-down
 train-val：
 
 ```bash
-cd LVM/FIANet-master-down
+cd VLMs/FIANet-master-down
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --dataset change_ref \
   --batch-size 16 \
@@ -242,7 +242,7 @@ bash vis.sh
 仓库路径：
 
 ```bash
-LVM/LAVT-RIS-main-down
+VLMs/LAVT-RIS-main-down
 ```
 
 需要准备的权重：
@@ -255,7 +255,7 @@ LVM/LAVT-RIS-main-down
 train-val：
 
 ```bash
-cd LVM/LAVT-RIS-main-down
+cd VLMs/LAVT-RIS-main-down
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --model lavt_change \
   --dataset change_ref \
@@ -320,7 +320,7 @@ bash vis.sh
 仓库路径：
 
 ```bash
-LVM/RMSIN-main-down
+VLMs/RMSIN-main-down
 ```
 
 需要准备的权重：
@@ -333,7 +333,7 @@ LVM/RMSIN-main-down
 train-val：
 
 ```bash
-cd LVM/RMSIN-main-down
+cd VLMs/RMSIN-main-down
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --model lavt_one \
   --dataset change_ref \
@@ -399,7 +399,7 @@ bash run_visualize.sh
 仓库路径：
 
 ```bash
-LVM/rrsis-main-down-LGCE
+VLMs/rrsis-main-down-LGCE
 ```
 
 需要准备的权重：
@@ -412,7 +412,7 @@ LVM/rrsis-main-down-LGCE
 train-val：
 
 ```bash
-cd LVM/rrsis-main-down-LGCE
+cd VLMs/rrsis-main-down-LGCE
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 train.py \
   --dataset change_ref \
   --batch-size 16 \
@@ -470,7 +470,7 @@ bash vis.sh
 仓库路径：
 
 ```bash
-LVM/robust-ref-seg-main-down-RefSegformer
+VLMs/robust-ref-seg-main-down-RefSegformer
 ```
 
 需要准备的权重：
@@ -488,7 +488,7 @@ LVM/robust-ref-seg-main-down-RefSegformer
 train-val：
 
 ```bash
-cd LVM/robust-ref-seg-main-down-RefSegformer
+cd VLMs/robust-ref-seg-main-down-RefSegformer
 python -m torch.distributed.launch --nproc_per_node 1 --master_port 12345 main.py \
   --exp MTRefSeg \
   --dataset MTRefSeg \
@@ -551,7 +551,7 @@ NS / RS：
 仓库路径：
 
 ```bash
-LVM/RSRefSeg-release-down
+VLMs/RSRefSeg-release-down
 ```
 
 需要准备的权重：
@@ -570,7 +570,7 @@ LVM/RSRefSeg-release-down
 train-val：
 
 ```bash
-cd LVM/RSRefSeg-release-down
+cd VLMs/RSRefSeg-release-down
 bash tools/dist_train.sh configs_RSRefSeg/RSRefSeg-b-train-val.py 1
 ```
 
@@ -624,7 +624,7 @@ python zero_to_fp32.py . exported_weights --tag epoch_20.pth
 train-val：
 
 ```bash
-cd LVM/RSRefSeg-release-down
+cd VLMs/RSRefSeg-release-down
 bash tools/dist_test.sh \
   configs_RSRefSeg/RSRefSeg-b-train-val.py \
   work_dirs/RSRefSeg-b-train-val/exported_weights/pytorch_model.bin \
@@ -668,7 +668,7 @@ bash tools/dist_test.sh \
 
 ## 6. 备注
 
-- 这组 `LVM` 仓库属于传统 vision-language segmentation 模型，不是多模态大模型
+- 这组 `VLMs` 仓库属于传统 vision-language segmentation 模型，不是多模态大模型
 - 它们现在都已经被改造成双时间 `A/B` 输入版本
 - `FIANet` / `LAVT` / `RMSIN` / `LGCE` / `RefSegformer` 这一组本质上都依赖 `Swin + BERT`
 - `CRIS` 使用的是 `CLIP RN50/RN101`
