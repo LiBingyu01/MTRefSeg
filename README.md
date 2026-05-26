@@ -40,6 +40,7 @@ LVLMs/README_CN.md
 * Please unzip the corresponding package before running a specific baseline.
 * Dataset paths, pretrained model paths, and output directories may need to be modified according to your local environment.
 * For training, evaluation, checkpoint conversion, and model-specific details, please check the README in the corresponding subfolder.
+* Note that the current **GeoPixel-based** baseline does not achieve satisfactory performance in our experiments. We welcome suggestions, discussions, and improved reproduction settings. Please contact us at libingyu0205@mail.ustc.edu.cn or libingyu0205@163.com.
 
 ## Acknowledgement
 
