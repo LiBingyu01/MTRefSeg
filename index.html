@@ -303,6 +303,71 @@
       margin-top: 1rem;
     }
 
+
+    .ack-list {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.4rem;
+    }
+
+    .ack-item {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+      box-shadow: 0 12px 34px rgba(25,31,50,.05);
+      padding: 1.15rem 1.25rem;
+      line-height: 1.76;
+      color: #415069;
+    }
+
+    .ack-item strong {
+      color: var(--ink);
+    }
+
+
+
+    /* ===== Hero alignment refinement =====
+       Keep the paper title, authors, affiliations, buttons, and main image
+       visually aligned to the same center axis and content width. */
+    .hero-main .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .paper-date,
+    h1.title,
+    .authors,
+    .affiliations {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1.title,
+    .authors,
+    .affiliations,
+    .button-row,
+    .hero-figure {
+      width: min(100%, 1160px);
+    }
+
+    .button-row {
+      justify-content: center;
+    }
+
+    .hero-figure {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-figure img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+    }
+
     @media (max-width: 768px) {
       .navlinks {
         display: none;
@@ -341,6 +406,7 @@
         <a href="#benchmark">Benchmark</a>
         <a href="#results">Results</a>
         <a href="#attention">Attention</a>
+        <a href="#acknowledgements">Acknowledgements</a>
         <a href="#cite">Cite</a>
       </nav>
     </div>
@@ -356,29 +422,26 @@
         </h1>
 
         <div class="authors">
-          <a href="https://libingyu01.github.io/">Bingyu Li</a><span class="sup">1,+</span> ·
-          <strong>Da Zhang</strong><span class="sup">2,+</span> ·
-          <strong>Feiyu Wang</strong><span class="sup">3</span> ·
-          <strong>Tao Huo</strong><span class="sup">2</span> ·
-          <strong>Du Wu</strong><span class="sup">2</span> ·
-          <strong>Chenggang Rong</strong><span class="sup">2</span> ·
-          <strong>Zhiyuan Zhao</strong><span class="sup">4,*</span> ·
-          <strong>Junyu Gao</strong><span class="sup">2</span> ·
-          <strong>Xuelong Li</strong><span class="sup">4,*</span>
+          <a href="https://libingyu01.github.io/">Bingyu Li</a><span class="sup">1,3,+</span> ·
+          <strong>Da Zhang</strong><span class="sup">2,3,+</span> ·
+          <strong>Tao Huo</strong><span class="sup">2,3</span> ·
+          <strong>Zhiyuan Zhao</strong><span class="sup">3</span> ·
+          <strong>Junyu Gao</strong><span class="sup">2,3</span> ·
+          <strong>Xuelong Li</strong><span class="sup">3,*</span>
         </div>
 
         <div class="affiliations">
-          <span class="sup">1</span>University of Science and Technology of China; Institute of Artificial Intelligence (TeleAI), China Telecom<br>
-          <span class="sup">2</span>Northwestern Polytechnical University; Institute of Artificial Intelligence (TeleAI), China Telecom<br>
-          <span class="sup">3</span>Fudan University<br>
-          <span class="sup">4</span>Institute of Artificial Intelligence (TeleAI), China Telecom<br>
-          <span class="sup">+</span>Equal Contribution(s)&nbsp;&nbsp;&nbsp; <span class="sup">*</span>Corresponding Author(s)
+          <span class="sup">1</span>University of Science and Technology of China, Hefei, China<br>
+          <span class="sup">2</span>School of Artificial Intelligence, Optics and Electronics (iOPEN), Northwestern Polytechnical University, Xi'an, China<br>
+          <span class="sup">3</span>Institute of Artificial Intelligence (TeleAI), China Telecom, China<br>
+          <span class="sup">+</span>Equal contribution&nbsp;&nbsp;&nbsp; <span class="sup">*</span>Corresponding author: Xuelong Li<br>
+          <span class="sup">†</span>This work was done during Bingyu Li's internship at TeleAI.
         </div>
 
         <div class="button-row">
           <a class="paper-btn" href="./assets/MTRefSeg.pdf"><i class="fa-solid fa-file-pdf"></i> Paper</a>
-          <a class="paper-btn" href="https://github.com/LiBingyu01/ChangeVLM"><i class="fa-brands fa-github"></i> Codes: MTRefSeg-R1</a>
-          <a class="paper-btn" href="https://github.com/LiBingyu01/ChangeVLM/tree/Other_MLLM_RCD"><i class="fa-brands fa-github"></i> Codes: Other LVLMs</a>
+          <a class="paper-btn" href="https://github.com/LiBingyu01/MTRefSeg"><i class="fa-brands fa-github"></i> Codes: MTRefSeg-R1</a>
+          <a class="paper-btn" href="https://github.com/LiBingyu01/MTRefSeg/tree/Other_MLLM_RCD"><i class="fa-brands fa-github"></i> Codes: Other LVLMs</a>
           <a class="paper-btn" href="https://huggingface.co/datasets/kkk2026/MTRefSeg-21K"><i class="fa-solid fa-database"></i> MT-21K</a>
           <a class="paper-btn" href="https://huggingface.co/datasets/kkk2026/MTRefSeg_Pretrained"><i class="fa-solid fa-layer-group"></i> MT-Stage1</a>
         </div>
@@ -706,8 +769,8 @@
             <div class="card-soft">
               <h3>Code</h3>
               <p>
-                <a href="https://github.com/LiBingyu01/ChangeVLM">Our ChangeVLM</a><br>
-                <a href="https://github.com/LiBingyu01/ChangeVLM/tree/Other_MLLM_RCD">Other LVLMs</a>
+                <a href="https://github.com/LiBingyu01/MTRefSeg">MTRefSeg-R1</a><br>
+                <a href="https://github.com/LiBingyu01/MTRefSeg/tree/Other_MLLM_RCD">Other LVLMs</a>
               </p>
             </div>
           </div>
@@ -725,13 +788,42 @@
       </div>
     </section>
 
+
+
+    <section class="section" id="acknowledgements">
+      <div class="container is-max-widescreen">
+        <h2 class="section-title">Acknowledgements</h2>
+
+        <p class="lead">
+          We sincerely thank all collaborators and friends who provided valuable support, feedback, and assistance during the construction of MTRefSeg-21K and the development of MTRefSeg-R1.
+        </p>
+
+        <div class="ack-list">
+          <div class="ack-item">
+            <strong>Data cleaning and annotation refinement.</strong>
+            The authors would like to thank Chenggang Rong from Northwestern Polytechnical University, Du Wu from Northwestern Polytechnical University, and Feiyu Wang from Fudan University for their valuable assistance in data cleaning and annotation refinement.
+          </div>
+
+          <div class="ack-item">
+            <strong>Research discussions and support.</strong>
+            The authors also thank Haocheng Dong from the University of Science and Technology of China for valuable discussions and support throughout this work.
+          </div>
+
+          <div class="ack-item">
+            <strong>Multi-temporal vision-language perspective.</strong>
+            The authors are grateful to Liang Yao from Hohai University for constructive feedback, which inspired us to reconsider the progression of vision-language segmentation through the lens of multi-temporal visual understanding.
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="cite">
       <div class="container is-max-widescreen">
         <h2 class="section-title">Cite This Work</h2>
 
         <pre class="bibtex">@article{li2026mtrefseg,
-  title   = {MTRefSeg: An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation},
-  author  = {Li, Bingyu and Zhang, Da and Wang, Feiyu and Huo, Tao and Wu, Du and Rong, Chenggang and Zhao, Zhiyuan and Gao, Junyu and Li, Xuelong},
+  title   = {An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation},
+  author  = {Li, Bingyu and Zhang, Da and Huo, Tao and Zhao, Zhiyuan and Gao, Junyu and Li, Xuelong},
   journal = {arXiv preprint},
   year    = {2026}
 }</pre>
@@ -742,7 +834,7 @@
   <footer>
     <p>
       MTRefSeg Project Page · For inquiries, please contact
-      <a href="mailto:libingyu0205@mail.ustc.edu.cn">libingyu0205@mail.ustc.edu.cn</a>.
+      <a href="mailto:libingyu0205@mail.ustc.edu.cn">libingyu0205@mail.ustc.edu.cn</a> or <a href="mailto:libingyu0205@163.com">libingyu0205@163.com</a>.
     </p>
   </footer>
 </body>
