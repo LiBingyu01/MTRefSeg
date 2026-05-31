@@ -1,4 +1,4 @@
-# An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation
+# MTRefSeg: An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation
 
 <div align="center">
   <img src="assets/pic_1.png" width="100%" alt="MTRefSeg teaser"/>
