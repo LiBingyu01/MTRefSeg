@@ -1,6 +1,16 @@
 # MTRefSeg: An Open-Source Benchmark and Baseline for Multi-temporal Referring Segmentation
 
 <div align="center">
+
+  <a href="https://arxiv.org/abs/2606.00987"><b>Paper</b></a> |
+  <a href="https://huggingface.co/datasets/kkk2026/MTRefSeg-21K"><b>Dataset: MTRefSeg-21K</b></a> |
+  <a href="https://huggingface.co/datasets/kkk2026/MTRefSeg_Pretrained"><b>Pretraining Dataset</b></a> |
+  <a href="https://huggingface.co/kkk2026/MTRefSeg_ckpt"><b>Model Weights</b></a>
+
+</div>
+
+
+<div align="center">
   <img src="assets/pic_1.png" width="100%" alt="MTRefSeg teaser"/>
 </div>
 
